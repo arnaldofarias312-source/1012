@@ -70,6 +70,10 @@ st.markdown("""
     hr {
         border-color: #ffb7c5;
     }
+    .logout-btn {
+        text-align: right;
+        margin-bottom: 10px;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -97,7 +101,6 @@ if not st.session_state.auth:
                     st.rerun()
                 else:
                     st.markdown("<p style='background: #ffe4ec; padding: 10px; border-radius: 20px; text-align: center; color:#d81b4c;'>❌ Solo el amor de mi vida puede entrar ❌</p>", unsafe_allow_html=True)
-                    # ❌ Sin globos aquí
     
     st.markdown("""
         <div style='text-align: center; margin-top: 30px;'>
@@ -108,6 +111,13 @@ if not st.session_state.auth:
 
 # ========== CONTENIDO PRINCIPAL ==========
 else:
+    # ---- Botón de cerrar sesión (arriba a la derecha) ----
+    col_logout, col_empty = st.columns([1, 5])
+    with col_logout:
+        if st.button("🚪 Cerrar sesión", key="logout_btn"):
+            st.session_state.auth = False
+            st.rerun()
+    
     st.markdown("<h1 style='text-align: center;'>✨ Para ti, Mi Amor ✨</h1>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center; font-weight: bold;'>💖 Cada día a tu lado es un regalo del cielo 💖</p>", unsafe_allow_html=True)
     
@@ -128,7 +138,6 @@ else:
     
     for col, emoji, titulo, mensaje in cards:
         with col:
-            # Botón que abre un popover
             with st.popover(f"{emoji} {titulo}", use_container_width=True):
                 st.markdown(f"<div style='text-align: center; font-size: 1.1rem;'>{mensaje}</div>", unsafe_allow_html=True)
                 st.caption("💖 Toca fuera para cerrar 💖")
